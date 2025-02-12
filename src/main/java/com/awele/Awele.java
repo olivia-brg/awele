@@ -31,10 +31,8 @@ public class Awele {
 
         while (seedsInHand > 0) {
             position = (position + 1) % board.SIZE;
-            System.out.println(position);
             board.getSpace(position).addSeeds();
             seedsInHand--;
-            System.out.println(seedsInHand);
         }
 
         int capturedSeeds = 0;
