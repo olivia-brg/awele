@@ -13,18 +13,17 @@ public class Main {
             Awele game = new Awele(name1, name2);
 
             while (true) {
+                Player playerTurn = game.player1Turn ? game.player1 : game.player2;
+
                 game.showBoard();
                 game.showScore();
-
-                System.out.println((game.player1Turn ? game.player1.getName() : game.player2.getName()) + " turn");
+                System.out.println(playerTurn.getName() + " turn");
 
                 int choice;
 
                 do {
                     String s = scanner.nextLine();
                     choice = Integer.parseInt(s);
-
-                    System.out.println("\nSelect a number between 0 and 11.");
                 } while (choice < 0 || choice > 11);
 
                 game.play(choice);

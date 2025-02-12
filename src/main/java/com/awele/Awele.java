@@ -14,7 +14,6 @@ public class Awele {
     }
 
     public void play(int choice) {
-        // int index = (player1Turn ? choice : choice + 6);
         Space spaceChosen = board.getSpace(choice);
 
         if (spaceChosen.isPlayer1Side() != this.player1Turn) {
@@ -31,9 +30,11 @@ public class Awele {
         int position = choice;
 
         while (seedsInHand > 0) {
-            position = (position++) % board.SIZE;
+            position = (position + 1) % board.SIZE;
+            System.out.println(position);
             board.getSpace(position).addSeeds();
             seedsInHand--;
+            System.out.println(seedsInHand);
         }
 
         int capturedSeeds = 0;
