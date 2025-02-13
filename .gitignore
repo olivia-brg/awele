@@ -1,0 +1,16 @@
+# Ignorer le dossier de compilation de Maven
+target/
+
+# Ignorer les fichiers IntelliJ IDEA
+.idea/
+*.iml
+
+# Ignorer les fichiers Eclipse
+.classpath
+.project
+.settings/
+
+# Ignorer les fichiers de logs et caches
+*.log
+*.tmp
+.DS_Store

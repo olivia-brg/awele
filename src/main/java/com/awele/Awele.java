@@ -8,8 +8,8 @@ public class Awele {
 
     public Awele(String player1Name, String player2Name) {
         this.board = new Board();
-        this.player1 = new Player(player1Name, 1);
-        this.player2 = new Player(player2Name, 2);
+        this.player1 = new Player(player1Name);
+        this.player2 = new Player(player2Name);
         this.player1Turn = Math.random() < 0.5;
     }
 
@@ -26,20 +26,62 @@ public class Awele {
             return;
         }
 
+        if (simulatePlay(choice)) {
+            System.out.println("You can't starve your opponent! Select another space.");
+            return;
+        }
+
+        executeMove(choice);
+
+        this.player1Turn = !this.player1Turn;
+    }
+
+    private boolean simulatePlay(int choice) {
+
+        Board tempBoard = new Board(this.board); 
+        int tempPosition = choice;
+        int seedsInHand = tempBoard.getSpace(choice).removeSeeds();
+
+        while (seedsInHand > 0) {
+            tempPosition = (tempPosition + 1) % Board.SIZE;
+            if (tempPosition != choice) {
+                tempBoard.getSpace(tempPosition).addSeed();
+                seedsInHand--;
+            }
+        }
+
+        while (tempBoard.getSpace(tempPosition).isPlayer1Side() == !this.player1Turn) {
+            Space actualSpace = tempBoard.getSpace(tempPosition);
+            if (actualSpace.getSeeds() == 2 || actualSpace.getSeeds() == 3) {
+                actualSpace.removeSeeds();
+            } else {
+                break;
+            }
+            tempPosition--;
+            if (tempPosition < 0) {
+                tempPosition = Board.SIZE - 1;
+            }
+        }
+        return !tempBoard.hasSeeds(!this.player1Turn);
+    }
+
+
+    private void executeMove(int choice) {
+        Space spaceChosen = board.getSpace(choice);
         int seedsInHand = spaceChosen.removeSeeds();
         int position = choice;
 
         while (seedsInHand > 0) {
-            position = (position + 1) % board.SIZE;
-            board.getSpace(position).addSeeds();
-            seedsInHand--;
+            position = (position + 1) % Board.SIZE;
+            if (position != choice) {
+                board.getSpace(position).addSeed();
+                seedsInHand--;
+            }
         }
 
         int capturedSeeds = 0;
-
-        while (board.getSpace(position).isPlayer1Side() == this.player1Turn) {
+        while (board.getSpace(position).isPlayer1Side() == !this.player1Turn) {
             Space actualSpace = board.getSpace(position);
-
             if (actualSpace.getSeeds() == 2 || actualSpace.getSeeds() == 3) {
                 capturedSeeds += actualSpace.getSeeds();
                 actualSpace.removeSeeds();
@@ -48,17 +90,15 @@ public class Awele {
             }
             position--;
             if (position < 0) {
-                position = board.SIZE - 1;
+                position = Board.SIZE - 1;
             }
         }
 
         if (this.player1Turn) {
-            this.player1.addCapturedSeeds(capturedSeeds); 
-        }else {
+            this.player1.addCapturedSeeds(capturedSeeds);
+        } else {
             this.player2.addCapturedSeeds(capturedSeeds);
         }
-
-        this.player1Turn = !this.player1Turn;
     }
 
     public void showScore() {

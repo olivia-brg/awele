@@ -1,7 +1,7 @@
 package com.awele;
 
 public class Space {
-    private final int SIDE_SIZE = 6;
+    private final int SIDE_SIZE = Board.SIZE / 2;
     private final int STARTING_SEEDS = 4;
     private final boolean player1Side;
 
@@ -12,11 +12,17 @@ public class Space {
         this.seeds = this.STARTING_SEEDS;
     }
 
+    public Space(int index,Space other) {
+        this.player1Side = (index < SIDE_SIZE);
+        this.seeds = other.seeds;
+    }
+
+
     public int getSeeds() {
         return seeds;
     }
 
-    public void addSeeds() {
+    public void addSeed() {
         this.seeds++;
     }
 

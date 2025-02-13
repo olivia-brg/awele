@@ -17,7 +17,7 @@ public class Main {
 
                 game.showBoard();
                 game.showScore();
-                System.out.println(playerTurn.getName() + " turn");
+                System.out.println(playerTurn.getName() + "'s turn");
 
                 int choice;
 

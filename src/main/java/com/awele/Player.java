@@ -5,7 +5,7 @@ public class Player {
 
     private int capturedSeeds;
 
-    public Player(String name, int id) {
+    public Player(String name) {
         this.name = name;
         this.capturedSeeds = 0;
     }
